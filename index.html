@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Gallery - Poboljšana Galerija</title>
+
+    <!-- CRITICAL OPTIMIZATIONS -->
+    <link rel="preload" as="style" href="css/style.css">
+    <link rel="preload" as="script" href="js/script.js">
+
+    <!-- Preload first few images -->
+    <link rel="preload" href="img/gallery/1.webp" as="image" type="image/webp">
+    <link rel="preload" href="img/gallery/2.webp" as="image" type="image/webp">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="gallery-container">
+        <h1>Modern Gallery</h1>
+
+        <!-- Galerija -->
+        <div id="gallery" class="gallery"></div>
+    </div>
+
+    <!-- Modal -->
+    <div id="gallery-modal" class="gallery-modal">
+        <div class="gallery-modal-content">
+            <!-- Navigacijske strelice -->
+            <button id="gallery-prev-btn" class="gallery-nav-btn" title="Prethodna slika">‹</button>
+            <button id="gallery-next-btn" class="gallery-nav-btn" title="Sljedeća slika">›</button>
+
+            <!-- Zatvaranje -->
+            <span id="gallery-close-btn" class="gallery-close" title="Zatvori">×</span>
+
+            <!-- Slika kontejner -->
+            <div id="gallery-modal-image-container" class="gallery-modal-image-container">
+                <img id="gallery-modal-image" src="" alt="" class="gallery-modal-image">
+            </div>
+
+            <!-- Indikatori -->
+            <div id="gallery-image-indicators" class="gallery-image-indicators"></div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
