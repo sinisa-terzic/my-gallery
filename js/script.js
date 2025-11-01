@@ -1,6 +1,5 @@
 /**
- * GALERIJA - PERFORMANCE OPTIMIZED VERSION
- * Sačuvana sva originalna funkcionalnost
+ * GALERIJA - OPTIMIZOVANA VERZIJA
  */
 
 class GalleryManager {
@@ -129,7 +128,7 @@ class GalleryManager {
 
         // Dodaj prikazane slike
         displayedImages.forEach((image, index) => {
-            this.elements.gallery.appendChild(this.createGalleryItem(image, index));
+            this.elements.gallery.appendChild(this.createGalleryItem(image));
         });
 
         // Dodaj rotirajući element ako ima slika
@@ -141,7 +140,7 @@ class GalleryManager {
         }
     }
 
-    createGalleryItem(image, index) {
+    createGalleryItem(image) {
         const item = document.createElement('div');
         item.className = 'gallery-item';
 
@@ -149,11 +148,6 @@ class GalleryManager {
         img.src = image.thumbnail;
         img.alt = image.alt;
         img.loading = 'lazy';
-
-        // PERFORMANCE: Set high priority for first image
-        if (index === 0) {
-            img.fetchPriority = 'high';
-        }
 
         img.addEventListener('click', () => {
             this.state.currentIndex = this.images.findIndex(img => img.id === image.id);
@@ -370,7 +364,7 @@ class GalleryManager {
         this.state.isAnimating = true;
         const direction = this.getNavigationDirection();
 
-        // PERFORMANCE: Faster animations (200ms instead of 250ms)
+        // Animacija izlaska
         this.elements.modalImage.classList.add(direction === 'next' ? 'slide-out-left' : 'slide-out-right');
 
         setTimeout(() => {
@@ -378,14 +372,15 @@ class GalleryManager {
             this.elements.modalImage.src = currentImage.src;
             this.elements.modalImage.alt = currentImage.alt;
 
+            // Animacija ulaska
             this.elements.modalImage.classList.add(direction === 'next' ? 'slide-in-right' : 'slide-in-left');
             this.updateIndicators();
 
             setTimeout(() => {
                 this.elements.modalImage.classList.remove('slide-in-left', 'slide-in-right');
                 this.state.isAnimating = false;
-            }, 200); // PERFORMANCE: Faster
-        }, 200); // PERFORMANCE: Faster
+            }, 250);
+        }, 250);
     }
 
     getNavigationDirection() {
@@ -471,16 +466,15 @@ class GalleryManager {
             });
         }
 
-        // PERFORMANCE: Debounced resize
+        // Resize
         window.addEventListener('resize', this.handleResize);
     }
 
-    // PERFORMANCE: Optimized resize handler
     handleResize() {
         clearTimeout(this.intervals.resize);
         this.intervals.resize = setTimeout(() => {
             this.createGallery();
-        }, 150);
+        }, 250);
     }
 
     setupModalEventListeners() {
@@ -520,17 +514,11 @@ if (!window.galleryManager) {
     window.galleryManager = new GalleryManager();
 }
 
-// PERFORMANCE: Optimized initialization
-const initGallery = () => {
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => window.galleryManager.init());
-    } else {
-        setTimeout(() => window.galleryManager.init(), 0);
-    }
-};
-
+// Auto-initialization
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGallery);
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => window.galleryManager.init(), 100);
+    });
 } else {
-    initGallery();
+    setTimeout(() => window.galleryManager.init(), 100);
 }
