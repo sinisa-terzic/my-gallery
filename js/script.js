@@ -1,6 +1,6 @@
 /**
  * MODERN GALLERY - OPTIMIZOVANA RESPONZIVNA GALERIJA
- * Osnovne funkcionalnosti: grid prikaz, modal sa navigacijom, touch/mouse swipe, responsive slike, pinch-to-zoom
+ * Osnovne funkcionalnosti: grid prikaz, modal sa navigacijom, touch/mouse swipe, responsive slike
  */
 
 class GalleryManager {
@@ -16,12 +16,6 @@ class GalleryManager {
             preload: {
                 enabled: true,                                 // Preload susednih slika
                 adjacentImages: 1                              // Broj susednih slika za preload
-            },
-            zoom: {
-                enabled: true,                                 // Pinch-to-zoom funkcionalnost
-                minScale: 0.5,                                 // Minimalni zoom
-                maxScale: 3,                                   // Maksimalni zoom
-                doubleTapScale: 2                              // Zoom na double-tap
             }
         };
 
@@ -136,9 +130,7 @@ class GalleryManager {
             prevIndex: 0,              // Prethodni index za navigaciju
             swipeStartX: 0,            // Početna pozicija za swipe
             isSwiping: false,          // Da li je u toku swipe gest
-            isLoading: false,          // Da li se učitava slika
-            currentScale: 1,           // Trenutni zoom level
-            isZoomed: false            // Da li je slika zumirana
+            isLoading: false           // Da li se učitava slika
         };
 
         this.intervals = {};    // Čuva interval za rotaciju i resize
@@ -301,114 +293,6 @@ class GalleryManager {
         const spinner = document.querySelector('.gallery-loading-spinner');
         if (spinner) {
             spinner.classList.remove('active');
-        }
-    }
-
-    // =========================================================================
-    // PINCH TO ZOOM FUNCTIONALITY
-    // =========================================================================
-
-    /**
-     * Postavlja pinch-to-zoom funkcionalnost
-     */
-    setupPinchZoom() {
-        if (!this.config.zoom.enabled) return;
-
-        const image = this.elements.modalImage;
-        let initialDistance = 0;
-        let lastTapTime = 0;
-
-        const handleTouchStart = (e) => {
-            // Double-tap detection
-            if (e.touches.length === 1) {
-                const currentTime = new Date().getTime();
-                const tapLength = currentTime - lastTapTime;
-                if (tapLength < 300 && tapLength > 0) {
-                    // Double-tap detected - toggle zoom
-                    this.toggleZoom();
-                    e.preventDefault();
-                }
-                lastTapTime = currentTime;
-            }
-
-            // Pinch-to-zoom detection
-            if (e.touches.length === 2) {
-                initialDistance = this.getTouchDistance(e.touches[0], e.touches[1]);
-            }
-        };
-
-        const handleTouchMove = (e) => {
-            if (e.touches.length === 2) {
-                e.preventDefault();
-                const currentDistance = this.getTouchDistance(e.touches[0], e.touches[1]);
-                const scale = currentDistance / initialDistance;
-
-                // Ažuriraj zoom sa granicama
-                this.updateZoom(scale);
-            }
-        };
-
-        const handleTouchEnd = () => {
-            initialDistance = 0;
-        };
-
-        // Dodaj event listenere
-        image.addEventListener('touchstart', handleTouchStart, { passive: false });
-        image.addEventListener('touchmove', handleTouchMove, { passive: false });
-        image.addEventListener('touchend', handleTouchEnd);
-    }
-
-    /**
-     * Računa distancu između dva touch pointa
-     * @param {Touch} touch1 - Prvi touch point
-     * @param {Touch} touch2 - Drugi touch point
-     * @returns {number} Distance između touch pointova
-     */
-    getTouchDistance(touch1, touch2) {
-        const dx = touch1.clientX - touch2.clientX;
-        const dy = touch1.clientY - touch2.clientY;
-        return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    /**
-     * Ažurira zoom level sa granicama
-     * @param {number} scale - Novi scale factor
-     */
-    updateZoom(scale) {
-        const { minScale, maxScale } = this.config.zoom;
-
-        // Ograniči zoom granice
-        this.state.currentScale = Math.max(minScale, Math.min(maxScale, this.state.currentScale * scale));
-
-        // Ažuriraj transformaciju
-        this.elements.modalImage.style.transform = `scale(${this.state.currentScale})`;
-
-        // Ažuriraj state i CSS klasu
-        this.state.isZoomed = this.state.currentScale !== 1;
-        this.elements.modalImage.classList.toggle('zoomed', this.state.isZoomed);
-    }
-
-    /**
-     * Resetuje zoom na originalnu veličinu
-     */
-    resetZoom() {
-        this.state.currentScale = 1;
-        this.state.isZoomed = false;
-        this.elements.modalImage.style.transform = 'scale(1)';
-        this.elements.modalImage.classList.remove('zoomed');
-    }
-
-    /**
-     * Toggle zoom između originalne i zumirane veličine
-     */
-    toggleZoom() {
-        if (this.state.isZoomed) {
-            this.resetZoom();
-        } else {
-            this.state.currentScale = this.config.zoom.doubleTapScale;
-            this.state.isZoomed = true;
-            this.elements.modalImage.style.transform = `scale(${this.state.currentScale})`;
-            this.elements.modalImage.classList.add('zoomed');
         }
     }
 
@@ -700,9 +584,6 @@ class GalleryManager {
         this.elements.modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
 
-        // Resetuj zoom pri otvaranju nove slike
-        this.resetZoom();
-
         // Mali delay za CSS transition
         setTimeout(() => {
             this.elements.modal.classList.add('active');
@@ -712,9 +593,6 @@ class GalleryManager {
         this.updateModalImage(true);
         this.setupSwipeEvents();
         this.setupModalEventListeners();
-
-        // Postavi pinch-to-zoom funkcionalnost
-        this.setupPinchZoom();
     }
 
     /**
@@ -728,9 +606,6 @@ class GalleryManager {
             document.body.style.overflow = 'auto';
             this.cleanupModalEventListeners();
             this.cleanupSwipeEvents();
-
-            // Resetuj zoom pri zatvaranju
-            this.resetZoom();
 
             // Ponovo pokreni rotaciju ako postoji
             if (this.state.rotatingImages.length > 1) {
@@ -757,9 +632,6 @@ class GalleryManager {
     updateModalImage(skipAnimation = false) {
         const currentImage = this.images[this.state.currentIndex];
         const responsiveSrc = this.getResponsiveSource(currentImage);
-
-        // Resetuj zoom pri promeni slike
-        this.resetZoom();
 
         // Preload susedne slike za bržu navigaciju
         this.preloadAdjacentImages(this.state.currentIndex);
