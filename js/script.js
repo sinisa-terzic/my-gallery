@@ -1,5 +1,5 @@
 /**
- * GALERIJA - OPTIMIZOVANA VERZIJA
+ * GALERIJA - OPTIMIZOVANA VERZIJA ZA MOBILNE UREĐAJE
  */
 
 class GalleryManager {
@@ -10,24 +10,113 @@ class GalleryManager {
                 tablet: { rows: 2, gap: 15, minWidth: 200 },
                 mobile: { rows: 2, gap: 10, minWidth: 150 }
             },
-            swipe: { threshold: 50 }
+            swipe: { threshold: 50 },
+            preload: {
+                enabled: true,
+                adjacentImages: 1 // SMANJENO za manje memorije
+            }
         };
 
+        // OPTIMIZOVANE SLIKE - samo 3 properties po slici
         this.images = [
-            { id: 1, src: "img/gallery/1200x800/1.webp", thumbnail: "img/gallery/1.webp", alt: "Prekrasan prikaz prirode 1" },
-            { id: 2, src: "img/gallery/1200x800/2.webp", thumbnail: "img/gallery/2.webp", alt: "Moderna arhitektura 2" },
-            { id: 3, src: "img/gallery/1200x800/3.webp", thumbnail: "img/gallery/3.webp", alt: "Gradski vidik noću 3" },
-            { id: 4, src: "img/gallery/1200x800/4.webp", thumbnail: "img/gallery/4.webp", alt: "Planinski pejzaž 4" },
-            { id: 5, src: "img/gallery/1200x800/5.webp", thumbnail: "img/gallery/5.webp", alt: "Morska obala 5" },
-            { id: 6, src: "img/gallery/1200x800/6.webp", thumbnail: "img/gallery/6.webp", alt: "Šumska staza 6" },
-            { id: 7, src: "img/gallery/1200x800/7.webp", thumbnail: "img/gallery/7.webp", alt: "Gradska četvrt 7" },
-            { id: 8, src: "img/gallery/1200x800/8.webp", thumbnail: "img/gallery/8.webp", alt: "Zimski pejzaž 8" },
-            { id: 9, src: "img/gallery/1200x800/9.webp", thumbnail: "img/gallery/9.webp", alt: "Pustinjski krajolik 9" },
-            { id: 10, src: "img/gallery/1200x800/10.webp", thumbnail: "img/gallery/10.webp", alt: "Jezerski vidik 10" },
-            { id: 11, src: "img/gallery/1200x800/11.webp", thumbnail: "img/gallery/11.webp", alt: "Planinski vrh 11" },
-            { id: 12, src: "img/gallery/1200x800/12.webp", thumbnail: "img/gallery/12.webp", alt: "Šumski potok 12" },
-            { id: 13, src: "img/gallery/1200x800/14.webp", thumbnail: "img/gallery/14.webp", alt: "Poljski cvijet 13" },
-            { id: 14, src: "img/gallery/1200x800/13.webp", thumbnail: "img/gallery/13.webp", alt: "Gradska noć 14" }
+            {
+                id: 1,
+                src: "img/gallery/1200x800/1.webp",         // Desktop modal
+                srcMobile: "img/gallery/800x600/1.webp",    // Mobile modal  
+                thumbnail: "img/gallery/400x300/1.webp",    // Jedan thumbnail za sve
+                alt: "Prekrasan prikaz prirode 1"
+            },
+            {
+                id: 2,
+                src: "img/gallery/1200x800/2.webp",
+                srcMobile: "img/gallery/800x600/2.webp",
+                thumbnail: "img/gallery/400x300/2.webp",
+                alt: "Moderna arhitektura 2"
+            },
+            {
+                id: 3,
+                src: "img/gallery/1200x800/3.webp",
+                srcMobile: "img/gallery/800x600/3.webp",
+                thumbnail: "img/gallery/400x300/3.webp",
+                alt: "Gradski vidik noću 3"
+            },
+            {
+                id: 4,
+                src: "img/gallery/1200x800/4.webp",
+                srcMobile: "img/gallery/800x600/4.webp",
+                thumbnail: "img/gallery/400x300/4.webp",
+                alt: "Planinski pejzaž 4"
+            },
+            {
+                id: 5,
+                src: "img/gallery/1200x800/5.webp",
+                srcMobile: "img/gallery/800x600/5.webp",
+                thumbnail: "img/gallery/400x300/5.webp",
+                alt: "Morska obala 5"
+            },
+            {
+                id: 6,
+                src: "img/gallery/1200x800/6.webp",
+                srcMobile: "img/gallery/800x600/6.webp",
+                thumbnail: "img/gallery/400x300/6.webp",
+                alt: "Šumska staza 6"
+            },
+            {
+                id: 7,
+                src: "img/gallery/1200x800/7.webp",
+                srcMobile: "img/gallery/800x600/7.webp",
+                thumbnail: "img/gallery/400x300/7.webp",
+                alt: "Gradska četvrt 7"
+            },
+            {
+                id: 8,
+                src: "img/gallery/1200x800/8.webp",
+                srcMobile: "img/gallery/800x600/8.webp",
+                thumbnail: "img/gallery/400x300/8.webp",
+                alt: "Zimski pejzaž 8"
+            },
+            {
+                id: 9,
+                src: "img/gallery/1200x800/9.webp",
+                srcMobile: "img/gallery/800x600/9.webp",
+                thumbnail: "img/gallery/400x300/9.webp",
+                alt: "Pustinjski krajolik 9"
+            },
+            {
+                id: 10,
+                src: "img/gallery/1200x800/10.webp",
+                srcMobile: "img/gallery/800x600/10.webp",
+                thumbnail: "img/gallery/400x300/10.webp",
+                alt: "Jezerski vidik 10"
+            },
+            {
+                id: 11,
+                src: "img/gallery/1200x800/11.webp",
+                srcMobile: "img/gallery/800x600/11.webp",
+                thumbnail: "img/gallery/400x300/11.webp",
+                alt: "Planinski vrh 11"
+            },
+            {
+                id: 12,
+                src: "img/gallery/1200x800/12.webp",
+                srcMobile: "img/gallery/800x600/12.webp",
+                thumbnail: "img/gallery/400x300/12.webp",
+                alt: "Šumski potok 12"
+            },
+            {
+                id: 13,
+                src: "img/gallery/1200x800/13.webp",
+                srcMobile: "img/gallery/800x600/13.webp",
+                thumbnail: "img/gallery/400x300/13.webp",
+                alt: "Poljski cvijet 13"
+            },
+            {
+                id: 14,
+                src: "img/gallery/1200x800/14.webp",
+                srcMobile: "img/gallery/800x600/14.webp",
+                thumbnail: "img/gallery/400x300/14.webp",
+                alt: "Gradska noć 14"
+            }
         ];
 
         this.state = {
@@ -37,26 +126,27 @@ class GalleryManager {
             isAnimating: false,
             prevIndex: 0,
             swipeStartX: 0,
-            isSwiping: false
+            isSwiping: false,
+            isLoading: false
         };
 
         this.intervals = {};
         this.elements = {};
         this.isInitialized = false;
 
-        // Bind methods za event handlere
+        // Bind methods - DODAJ MOUSE HANDLERS NAZAD
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleResize = this.handleResize.bind(this);
         this.handleTouchStart = this.handleTouchStart.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
         this.handleTouchEnd = this.handleTouchEnd.bind(this);
         this.handleMouseDown = this.handleMouseDown.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseUp = this.handleMouseUp.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleResize = this.handleResize.bind(this);
     }
 
     // =========================================================================
-    // PUBLIC API
+    // PUBLIC API - OSTAJE ISTO
     // =========================================================================
 
     init() {
@@ -95,7 +185,43 @@ class GalleryManager {
     }
 
     // =========================================================================
-    // CORE FUNCTIONALITY
+    // OPTIMIZOVANE RESPONSIVE FUNKCIJE
+    // =========================================================================
+
+    getResponsiveSource(image) {
+        return window.innerWidth < 768 ? image.srcMobile : image.src;
+    }
+
+    getThumbnailSource(image) {
+        return image.thumbnail;
+    }
+
+    // =========================================================================
+    // POJEDNOSTAVLJEN PRELOAD SYSTEM
+    // =========================================================================
+
+    preloadAdjacentImages(currentIndex) {
+        if (!this.config.preload.enabled) return;
+
+        const { adjacentImages } = this.config.preload;
+
+        for (let i = 1; i <= adjacentImages; i++) {
+            const prevIndex = (currentIndex - i + this.images.length) % this.images.length;
+            const nextIndex = (currentIndex + i) % this.images.length;
+
+            this.preloadSingleImage(this.images[prevIndex]);
+            this.preloadSingleImage(this.images[nextIndex]);
+        }
+    }
+
+    preloadSingleImage(image) {
+        const src = this.getResponsiveSource(image);
+        const img = new Image();
+        img.src = src;
+    }
+
+    // =========================================================================
+    // CORE FUNCTIONALITY - OPTIMIZOVANO
     // =========================================================================
 
     cacheElements() {
@@ -126,12 +252,10 @@ class GalleryManager {
         const displayedImages = this.images.slice(0, visibleCount - 1);
         this.state.rotatingImages = this.images.slice(visibleCount - 1);
 
-        // Dodaj prikazane slike
         displayedImages.forEach((image, index) => {
             this.elements.gallery.appendChild(this.createGalleryItem(image));
         });
 
-        // Dodaj rotirajući element ako ima slika
         if (this.state.rotatingImages.length > 0) {
             this.elements.gallery.appendChild(this.createRotatingItem());
             if (this.state.rotatingImages.length > 1) {
@@ -145,7 +269,7 @@ class GalleryManager {
         item.className = 'gallery-item';
 
         const img = document.createElement('img');
-        img.src = image.thumbnail;
+        img.src = this.getThumbnailSource(image);
         img.alt = image.alt;
         img.loading = 'lazy';
 
@@ -167,10 +291,9 @@ class GalleryManager {
             'gallery-item rotating-item' :
             'gallery-item rotating-item no-rotation';
 
-        // Dodaj slike za rotaciju
         this.state.rotatingImages.forEach((image, index) => {
             const img = document.createElement('img');
-            img.src = image.thumbnail;
+            img.src = this.getThumbnailSource(image);
             img.alt = image.alt;
             img.dataset.imageId = image.id;
 
@@ -181,7 +304,6 @@ class GalleryManager {
             item.appendChild(img);
         });
 
-        // Dodaj tekst ako ima više slika
         if (hasMultipleImages) {
             const moreText = document.createElement('div');
             moreText.className = 'more-text';
@@ -203,7 +325,7 @@ class GalleryManager {
     }
 
     // =========================================================================
-    // ROTATION
+    // ROTATION - OSTAJE ISTO
     // =========================================================================
 
     startRotation() {
@@ -236,19 +358,19 @@ class GalleryManager {
     }
 
     // =========================================================================
-    // SWIPE FUNCTIONALITY
+    // SWIPE FUNCTIONALITY - DODAJ MOUSE EVENTS NAZAD
     // =========================================================================
 
     setupSwipeEvents() {
         const container = this.elements.modalImageContainer;
         if (!container) return;
 
-        // Touch events
+        // Touch events za mobile
         container.addEventListener('touchstart', this.handleTouchStart, { passive: false });
         container.addEventListener('touchmove', this.handleTouchMove, { passive: false });
         container.addEventListener('touchend', this.handleTouchEnd);
 
-        // Mouse events
+        // Mouse events za desktop - DODAJ OVO NAZAD
         container.addEventListener('mousedown', this.handleMouseDown);
         container.addEventListener('mousemove', this.handleMouseMove);
         container.addEventListener('mouseup', this.handleMouseUp);
@@ -276,6 +398,7 @@ class GalleryManager {
         this.state.isSwiping = false;
     }
 
+    // DODAJ MOUSE HANDLERS NAZAD
     handleMouseDown(e) {
         if (this.state.isAnimating || e.button !== 0) return;
         this.state.swipeStartX = e.clientX;
@@ -284,7 +407,7 @@ class GalleryManager {
     }
 
     handleMouseMove(e) {
-        // Samo prati kretanje
+        // Samo prati kretanje - processing se radi u handleMouseUp
     }
 
     handleMouseUp(e) {
@@ -304,14 +427,18 @@ class GalleryManager {
         const container = this.elements.modalImageContainer;
         if (!container) return;
 
-        const events = ['touchstart', 'touchmove', 'touchend', 'mousedown', 'mousemove', 'mouseup', 'mouseleave'];
+        const events = [
+            'touchstart', 'touchmove', 'touchend',
+            'mousedown', 'mousemove', 'mouseup', 'mouseleave'
+        ];
+
         events.forEach(event => {
             container.removeEventListener(event, this[`handle${event.charAt(0).toUpperCase() + event.slice(1)}`]);
         });
     }
 
     // =========================================================================
-    // MODAL FUNCTIONALITY
+    // MODAL FUNCTIONALITY - OPTIMIZOVANO
     // =========================================================================
 
     openModal() {
@@ -353,9 +480,12 @@ class GalleryManager {
 
     updateModalImage(skipAnimation = false) {
         const currentImage = this.images[this.state.currentIndex];
+        const responsiveSrc = this.getResponsiveSource(currentImage);
+
+        this.preloadAdjacentImages(this.state.currentIndex);
 
         if (skipAnimation) {
-            this.elements.modalImage.src = currentImage.src;
+            this.elements.modalImage.src = responsiveSrc;
             this.elements.modalImage.alt = currentImage.alt;
             this.updateIndicators();
             return;
@@ -364,15 +494,13 @@ class GalleryManager {
         this.state.isAnimating = true;
         const direction = this.getNavigationDirection();
 
-        // Animacija izlaska
         this.elements.modalImage.classList.add(direction === 'next' ? 'slide-out-left' : 'slide-out-right');
 
         setTimeout(() => {
             this.elements.modalImage.classList.remove('slide-out-left', 'slide-out-right');
-            this.elements.modalImage.src = currentImage.src;
+            this.elements.modalImage.src = responsiveSrc;
             this.elements.modalImage.alt = currentImage.alt;
 
-            // Animacija ulaska
             this.elements.modalImage.classList.add(direction === 'next' ? 'slide-in-right' : 'slide-in-left');
             this.updateIndicators();
 
@@ -413,7 +541,7 @@ class GalleryManager {
     }
 
     // =========================================================================
-    // GRID SYSTEM
+    // GRID SYSTEM - OSTAJE ISTO
     // =========================================================================
 
     setupGridLayout() {
@@ -436,11 +564,10 @@ class GalleryManager {
     }
 
     // =========================================================================
-    // EVENT MANAGEMENT
+    // EVENT MANAGEMENT - OPTIMIZOVANO
     // =========================================================================
 
     setupEventListeners() {
-        // Modal controls
         if (this.elements.closeBtn) {
             this.elements.closeBtn.addEventListener('click', () => this.closeModal());
         }
@@ -451,7 +578,6 @@ class GalleryManager {
             });
         }
 
-        // Navigation
         if (this.elements.prevBtn) {
             this.elements.prevBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -466,7 +592,6 @@ class GalleryManager {
             });
         }
 
-        // Resize
         window.addEventListener('resize', this.handleResize);
     }
 
@@ -514,7 +639,6 @@ if (!window.galleryManager) {
     window.galleryManager = new GalleryManager();
 }
 
-// Auto-initialization
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => window.galleryManager.init(), 100);
