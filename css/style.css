@@ -15,14 +15,6 @@ select {
     box-sizing: border-box;
 }
 
-/* body {
-    font-family: 'Arial', sans-serif;
-    min-height: 100vh;
-    padding: 40px 20px;
-    background: #f8f9fa;
-    line-height: 1.6;
-} */
-
 h1 {
     text-align: center;
     color: #667ce8;
@@ -34,15 +26,19 @@ h1 {
 
 .gallery-container {
     margin: 0 auto;
-    /* max-width: 1200px; */
 }
 
 /* =============================================================================
    GALERIJA - GRID SISTEM
    ============================================================================= */
+.gallery-container {
+    user-select: none;
+}
+
 .gallery {
     display: grid;
     gap: 20px;
+
 }
 
 .gallery-item {
@@ -182,6 +178,7 @@ h1 {
    MODALNI PROZOR - TRANSITION ZA OTVARANJE I ZATVARANJE
    ============================================================================= */
 .gallery-modal {
+    user-select: none;
     display: none;
     position: fixed;
     z-index: 1000;
@@ -225,7 +222,7 @@ h1 {
     transition: all 0.3s ease;
 }
 
-/* Glavna slika */
+/* Glavna slika sa ZOOM funkcionalnošću */
 .gallery-modal-image {
     max-width: 90%;
     max-height: 90vh;
@@ -233,10 +230,19 @@ h1 {
     border-radius: 12px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     transition: transform 0.4s ease, opacity 0.4s ease;
+    cursor: zoom-in;
+    transform-origin: center center;
+    /* Zoom iz centra */
+    transition: transform 0.1s ease;
+    /* Glatki zoom */
+}
+
+/* Stil za zumiranu sliku */
+.gallery-modal-image.zoomed {
     cursor: grab;
 }
 
-.gallery-modal-image:active {
+.gallery-modal-image.zoomed:active {
     cursor: grabbing;
 }
 
@@ -258,7 +264,7 @@ h1 {
     border: 3px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     border-top-color: #fff;
-    animation: spin 1s ease-in-out infinite;
+    animation: spinGallery 1s ease-in-out infinite;
     z-index: 1002;
     display: none;
 }
@@ -267,7 +273,7 @@ h1 {
     display: block;
 }
 
-@keyframes spin {
+@keyframes spinGallery {
     to {
         transform: translate(-50%, -50%) rotate(360deg);
     }
